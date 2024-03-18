@@ -8,8 +8,8 @@ pipeline{
 
     stages{
         
-        when { expression { param.action == 'create' } }
         stage('Git Checkout'){
+            when { expression { param.action == 'create' } }
             steps{
                 script{
                     // git branch: 'main', url: 'https://github.com/aditya8sharma/java_mega_app.git'
@@ -22,8 +22,8 @@ pipeline{
             }
         }
 
-        when { expression { param.action == 'create' } }
         stage('Unit Test - Maven'){
+            when { expression { param.action == 'create' } }
             steps{
                 script{
                     mvnTest()
@@ -31,13 +31,23 @@ pipeline{
             }
         }
 
-        when { expression { param.action == 'create' } }
         stage('Integration Test - Maven'){
+            when { expression { param.action == 'create' } }
             steps{
                 script{
                     mvnIntegrationTest()
                 }
             }
         }
+        
+        stage('Static Code Analysis: SonarQube'){
+            when { expression { param.action == 'create' } }
+            steps{
+                script{
+                    staticCodeAnalysis()
+                }
+            }
+        }
+
     }
 }
